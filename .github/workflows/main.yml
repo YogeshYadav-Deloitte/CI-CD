@@ -7,11 +7,11 @@ on:
 jobs:
   robot_tests:
     runs-on: windows-latest
-#    env:
-#      working-directory: ./
-#    defaults:
-#      run:
-#        working-directory: ${{ env.working-directory }}
+    env:
+      working-directory: ./
+    defaults:
+      run:
+        working-directory: ${{ env.working-directory }}
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v2
@@ -31,12 +31,12 @@ jobs:
         uses: joonvena/robotframework-docker-action@v1.0
         with:
           robot_tests_dir: Tests
-      - name: Store Test Reports
-        uses: actions/upload-artifact@v3.1.1
-        if: always()
-        with:
-          name: Report
-          path: Report
+#      - name: Store Test Reports
+#        uses: actions/upload-artifact@v3.1.1
+#        if: always()
+#        with:
+#          name: Report
+#          path: Report
       - name: Test Started
         uses: jdcargile/ms-teams-notification@v1.3
         with:
@@ -56,13 +56,7 @@ jobs:
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
           notification-summary: Test Completed
           notification-color: 00FF00
-#      - name: Test Reporter
-#        uses: dorny/test-reporter@v1.6.0
-#        if: success() || failure()
-#        with:
-#          name: Tests Reports
-#          path: reports/jest-*.xml
-#          reporter: jest-junit
+
   report:
     if: always()
     needs: [robot_tests]
