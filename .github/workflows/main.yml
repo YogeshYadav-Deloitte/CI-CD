@@ -11,6 +11,5 @@ jobs:
       - name: echo String
         run: pip install robotframework
       - name: Run robot-scripts
-        working-directory: ./Tests
         run: |
           pwd
