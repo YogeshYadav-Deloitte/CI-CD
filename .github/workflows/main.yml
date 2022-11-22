@@ -64,7 +64,7 @@ jobs:
           reporter: jest-junit
   report:
     if: always()
-    need: [robot_tests]
+    needs: [robot_tests]
     runs-on: windows-latest
     steps:
       - name: Repo Checkout
