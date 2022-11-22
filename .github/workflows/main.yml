@@ -7,11 +7,11 @@ on:
 jobs:
   robot_tests:
     runs-on: windows-latest
-    env:
-      working-directory: ./
-    defaults:
-      run:
-        working-directory: ${{ env.working-directory }}
+#    env:
+#      working-directory: ./
+#    defaults:
+#      run:
+#        working-directory: ${{ env.working-directory }}
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v2
