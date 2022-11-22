@@ -15,8 +15,8 @@ jobs:
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v2
-      - name: Robot Framework
-        uses: joonvena/robotframework-docker-action@v1.0
+#      - name: Robot Framework
+#        uses: joonvena/robotframework-docker-action@v1.0
       - name: Test Started
         uses: jdcargile/ms-teams-notification@v1.3
         with:
