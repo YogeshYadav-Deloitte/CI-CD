@@ -29,12 +29,12 @@ jobs:
 #          pip install robotframework-requests
       - name: Robot Framework Tests
         uses: joonvena/robotframework-docker-action@v1.0
-#      - name: Store Test Reports
-#        uses: actions/upload-artifact@v3.1.1
-#        if: always()
-#        with:
-#          name: Report
-#          path: Report
+      - name: Store Test Reports
+        uses: actions/upload-artifact@v3.1.1
+        if: always()
+        with:
+          name: Report
+          path: Report
       - name: Test Started
         uses: jdcargile/ms-teams-notification@v1.3
         with:
