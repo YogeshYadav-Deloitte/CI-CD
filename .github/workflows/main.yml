@@ -47,10 +47,10 @@ jobs:
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
           notification-summary: Test Data
           notification-color: 00FF00
-      - name: Test Reporter
-        uses: dorny/test-reporter@v1.6.0
-        if: success() || failure()
-        with:
-          name: Tests Reports
-          path: reports/jest-*.xml
-          reporter: jest-junit
+#      - name: Test Reporter
+#        uses: dorny/test-reporter@v1.6.0
+#        if: success() || failure()
+#        with:
+#          name: Tests Reports
+#          path: reports/jest-*.xml
+#          reporter: jest-junit
