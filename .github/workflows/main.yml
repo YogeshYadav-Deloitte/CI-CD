@@ -5,7 +5,7 @@ on:
     branches:
       - main
 jobs:
-  run-robot-scripts:
+  robot_tests:
     runs-on: windows-latest
     env:
       working-directory: ./
@@ -15,8 +15,16 @@ jobs:
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v2
-#      - name: Robot Framework
-#        uses: joonvena/robotframework-docker-action@v1.0
+      - name: Robot Framework
+        uses: joonvena/robotframework-docker-action@v1.0
+        with:
+          robot_tests_dir: Tests
+      - name: Store Test Reports
+        uses: actions/upload-artifact@v1.0
+        if: always()
+        with:
+          name: Report
+          path: Report
       - name: Test Started
         uses: jdcargile/ms-teams-notification@v1.3
         with:
@@ -36,9 +44,9 @@ jobs:
 #          pip install robotframework-seleniumlibrary
 #          pip install robotframework-jsonlibrary
 #          pip install robotframework-requests
-      - name: Run Scripts
-        run: |
-          python Tests/name.py
+#      - name: Run Scripts
+#        run: |
+#          python Tests/name.py
 #          robot Tests/Web_Login_Test.robot
       - name: Test Completed
         uses: jdcargile/ms-teams-notification@v1.3
@@ -54,3 +62,14 @@ jobs:
           name: Tests Reports
           path: reports/jest-*.xml
           reporter: jest-junit
+  report:
+    if: always()
+    need: [robot_tests]
+    runs-on: windows-latest
+    steps:
+      - name: Repo Checkout
+        uses: actions/download-artifact@v1.0
+        with:
+          name: Report
+      - name: Robot Framework
+          uses: joonvena/robotframework-reporter-action@v2
