@@ -1,0 +1,16 @@
+name: Action-GitHub
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  run-robot-scripts:
+    runs-on: windows-latest
+    steps:
+      - name: echo String
+        run: pip install robotframework
+      - name: Run robot-scripts
+        working-directory: ./Tests
+        run: |
+          python name.py
