@@ -19,22 +19,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-#      - name: Install Requirements
-#        run: |
-#          pip install webdriver-manager
-#          pip install robotframework
-#          pip install robotframework-appiumlibrary
-#          pip install robotframework-seleniumlibrary
-#          pip install robotframework-jsonlibrary
-#          pip install robotframework-requests
-      - name: Robot Framework Tests
-        uses: joonvena/robotframework-docker-action@v1.0
-      - name: Store Test Reports
-        uses: actions/upload-artifact@v3.1.1
-        if: always()
-        with:
-          name: Report
-          path: Report
+      - name: Create folder for reports
+          run: mkdir Reports
+      - name: Install Requirements
+        run: |
+          pip install webdriver-manager
+          pip install robotframework
+          pip install robotframework-appiumlibrary
+          pip install robotframework-seleniumlibrary
+          pip install robotframework-jsonlibrary
+          pip install robotframework-requests
       - name: Test Started
         uses: jdcargile/ms-teams-notification@v1.3
         with:
@@ -42,11 +36,15 @@ jobs:
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
           notification-summary: Test Started
           notification-color: 17a2b8
-
-#      - name: Run Scripts
-#        run: |
-#          python Tests/name.py
-#          robot Tests/Web_Login_Test.robot
+      - name: Execute Robot Tests
+        run: |
+          robot -d Report Tests
+      - name: Upload reports
+        uses: actions/upload-artifact@v3.1.1
+        if: always()
+        with:
+          name: Report
+          path: ${{ github.workspace }}/Report
       - name: Test Completed
         uses: jdcargile/ms-teams-notification@v1.3
         with:
