@@ -13,4 +13,4 @@ jobs:
       - name: Run robot-scripts
         working-directory: ./Tests
         run: |
-          python name.py
+          pwd
