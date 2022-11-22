@@ -7,10 +7,25 @@ on:
 jobs:
   run-robot-scripts:
     runs-on: windows-latest
+    env:
+      working-directory: ./
+    defaults:
+      run:
+        working-directory: ${{ env.working-directory }}
     steps:
-      - name: echo String
-        run: pip install robotframework
-      - name: Run robot-scripts
+      - name: Repo Checkout
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Execute Scripts
         run: |
-          pwd
-          python3 .python
+          pip install webdriver-manager
+          pip install robotframework
+          pip install robotframework-appiumlibrary
+          pip install robotframework-seleniumlibrary
+          pip install robotframework-jsonlibrary
+          pip install robotframework-requests
+          python Tests/name.py
+          robot Tests/Web_Login_Test.robot
