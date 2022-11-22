@@ -72,4 +72,4 @@ jobs:
         with:
           name: Report
       - name: Robot Framework
-          uses: joonvena/robotframework-reporter-action@v2
+        uses: joonvena/robotframework-reporter-action@v2
