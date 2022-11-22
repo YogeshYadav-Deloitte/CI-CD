@@ -6,6 +6,11 @@ Variables        ../Libraries/ReadConfig.py
 Library          ../Libraries/WebDriverSync.py
 
 *** Keywords ***
+Open chrome browser
+    ${web_driver_path}=     Get Driver Path
+    SeleniumLibrary.Create Webdriver    Chrome      executable_path=${web_driver_path}
+    SeleniumLibrary.maximize browser window
+
 Open Chrome with block notifications
     ${web_driver_path}=     Get Driver Path
     &{prefs}=      Create Dictionary       download.default_directory=${EXECDIR}${/}TestDownloads
