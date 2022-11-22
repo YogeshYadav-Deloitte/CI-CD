@@ -29,13 +29,14 @@ jobs:
           pip install robotframework-seleniumlibrary
           pip install robotframework-jsonlibrary
           pip install robotframework-requests
-      - name: Test Started
-        uses: jdcargile/ms-teams-notification@v1.3
+      - name: Deploy Started Notification
+        uses: mikesprague/teams-incoming-webhook-action@v1
         with:
           github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: Test Started
-          notification-color: 17a2b8
+          webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
+          deploy-card: true
+          title: 'Test Started'
+          color: 'info'
       - name: Execute Robot Tests
         run: |
           robot -d Report Tests
@@ -45,13 +46,33 @@ jobs:
         with:
           name: Report
           path: ${{ github.workspace }}/Report
-      - name: Test Completed
-        uses: jdcargile/ms-teams-notification@v1.3
+      - name: Success Notification
+        if: ${{ success() }}
+        uses: mikesprague/teams-incoming-webhook-action@v1
         with:
           github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: Test Completed
-          notification-color: 00FF00
+          webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
+          deploy-card: true
+          title: 'Test Passed'
+          color: 'success'
+      - name: Failure Notification
+        if: ${{ failure() }}
+        uses: mikesprague/teams-incoming-webhook-action@v1
+        with:
+          github-token: ${{ github.token }}
+          webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
+          deploy-card: true
+          title: 'Test Failed'
+          color: 'failure'
+      - name: Cancelled Notification
+        if: ${{ cancelled() }}
+        uses: mikesprague/teams-incoming-webhook-action@v1
+        with:
+          github-token: ${{ github.token }}
+          webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
+          deploy-card: true
+          title: 'Test Cancelled'
+          color: 'warning'
 
   report:
     if: always()
