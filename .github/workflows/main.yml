@@ -22,7 +22,7 @@ jobs:
         with:
           github-token: ${{ github.token }}
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: Your custom notification message
+          notification-summary: Test Started
           notification-color: 17a2b8
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -45,12 +45,12 @@ jobs:
         with:
           github-token: ${{ github.token }}
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: Test Data
+          notification-summary: Test Completed
           notification-color: 00FF00
-#      - name: Test Reporter
-#        uses: dorny/test-reporter@v1.6.0
-#        if: success() || failure()
-#        with:
-#          name: Tests Reports
-#          path: reports/jest-*.xml
-#          reporter: jest-junit
+      - name: Test Reporter
+        uses: dorny/test-reporter@v1.6.0
+        if: success() || failure()
+        with:
+          name: Tests Reports
+          path: reports/jest-*.xml
+          reporter: jest-junit
