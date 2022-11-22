@@ -15,26 +15,42 @@ jobs:
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      - name: Install Requirements
-        run: |
-          pip install webdriver-manager
-          pip install robotframework
-          pip install robotframework-appiumlibrary
-          pip install robotframework-seleniumlibrary
-          pip install robotframework-jsonlibrary
-          pip install robotframework-requests
-      - name: Run Scripts
-        run: |
-          python Tests/name.py
-          robot Tests/Web_Login_Test.robot
-      - name: Notify dedicated teams channel
+      - name: Robot Framework
+        uses: joonvena/robotframework-docker-action@v1.0
+      - name: Test Started
         uses: jdcargile/ms-teams-notification@v1.3
         with:
           github-token: ${{ github.token }}
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
           notification-summary: Your custom notification message
           notification-color: 17a2b8
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+#      - name: Install Requirements
+#        run: |
+#          pip install webdriver-manager
+#          pip install robotframework
+#          pip install robotframework-appiumlibrary
+#          pip install robotframework-seleniumlibrary
+#          pip install robotframework-jsonlibrary
+#          pip install robotframework-requests
+      - name: Run Scripts
+        run: |
+          python Tests/name.py
+#          robot Tests/Web_Login_Test.robot
+      - name: Test Completed
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: Test Data
+          notification-color: 00FF00
+      - name: Test Reporter
+        uses: dorny/test-reporter@v1.6.0
+        if: success() || failure()
+          with:
+            name: Tests Reports
+            path: reports/jest-*.xml
+            reporter: jest-junit
