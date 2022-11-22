@@ -15,7 +15,19 @@ jobs:
     steps:
       - name: Repo Checkout
         uses: actions/checkout@v2
-      - name: Robot Framework
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install Requirements
+        run: |
+          pip install webdriver-manager
+          pip install robotframework
+          pip install robotframework-appiumlibrary
+          pip install robotframework-seleniumlibrary
+          pip install robotframework-jsonlibrary
+          pip install robotframework-requests
+      - name: Robot Framework Tests
         uses: joonvena/robotframework-docker-action@v1.0
         with:
           robot_tests_dir: Tests
@@ -32,18 +44,7 @@ jobs:
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
           notification-summary: Test Started
           notification-color: 17a2b8
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-#      - name: Install Requirements
-#        run: |
-#          pip install webdriver-manager
-#          pip install robotframework
-#          pip install robotframework-appiumlibrary
-#          pip install robotframework-seleniumlibrary
-#          pip install robotframework-jsonlibrary
-#          pip install robotframework-requests
+
 #      - name: Run Scripts
 #        run: |
 #          python Tests/name.py
@@ -55,13 +56,13 @@ jobs:
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
           notification-summary: Test Completed
           notification-color: 00FF00
-      - name: Test Reporter
-        uses: dorny/test-reporter@v1.6.0
-        if: success() || failure()
-        with:
-          name: Tests Reports
-          path: reports/jest-*.xml
-          reporter: jest-junit
+#      - name: Test Reporter
+#        uses: dorny/test-reporter@v1.6.0
+#        if: success() || failure()
+#        with:
+#          name: Tests Reports
+#          path: reports/jest-*.xml
+#          reporter: jest-junit
   report:
     if: always()
     needs: [robot_tests]
@@ -73,3 +74,5 @@ jobs:
           name: Report
       - name: Robot Framework
         uses: joonvena/robotframework-reporter-action@v2
+        with:
+          gh_access_token: ${{ github.token }}
