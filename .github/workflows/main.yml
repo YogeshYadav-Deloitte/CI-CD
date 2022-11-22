@@ -13,3 +13,4 @@ jobs:
       - name: Run robot-scripts
         run: |
           pwd
+          python3 Tests/name.py
