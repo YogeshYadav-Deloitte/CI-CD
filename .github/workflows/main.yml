@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Execute Scripts
+      - name: Install Requirements
         run: |
           pip install webdriver-manager
           pip install robotframework
@@ -27,5 +27,13 @@ jobs:
           pip install robotframework-seleniumlibrary
           pip install robotframework-jsonlibrary
           pip install robotframework-requests
+      - name: Run Scripts
+        run: |
           python Tests/name.py
           robot Tests/Web_Login_Test.robot
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: Your custom notification message
+          notification-color: 17a2b8
