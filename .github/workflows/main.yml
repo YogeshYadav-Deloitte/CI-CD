@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Create folder for reports
-          run: mkdir Reports
+        run: mkdir Reports
       - name: Install Requirements
         run: |
           pip install webdriver-manager
