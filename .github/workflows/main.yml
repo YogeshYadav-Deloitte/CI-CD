@@ -62,7 +62,3 @@ jobs:
         uses: actions/download-artifact@v3.0.1
         with:
           name: Report
-      - name: Robot Framework
-        uses: joonvena/robotframework-reporter-action@v2
-        with:
-          gh_access_token: ${{ github.token }}
