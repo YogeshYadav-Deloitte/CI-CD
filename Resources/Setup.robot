@@ -4,7 +4,6 @@ Library          Process
 Library          OperatingSystem
 Variables        ../Libraries/ReadConfig.py
 Library          ../Libraries/WebDriverSync.py
-Library          ../Libraries/CustomKeyword.py
 
 *** Keywords ***
 Open Chrome with block notifications

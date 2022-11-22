@@ -17,7 +17,6 @@ Suite Teardown          Close Browser
 Login And Create Channel Via Web
 
         # verifying the same on Web
-        GO TO       ${URL}
         Login using email and password
         Select Create new option and add a channel
         Check if the channel is created or not
